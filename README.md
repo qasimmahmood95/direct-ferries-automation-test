@@ -4,15 +4,22 @@ We would like you to complete a small task to demonstrate your technical underst
 
 ---    
 
-1. There are some tests existing and working within homepage-tests feature - please extend the test coverage for sites www.directferries.co.uk and www.directferries.it and ensure all the tests pass. 
+1. There are some tests existing and working within homepage-tests feature - please extend the test coverage for sites www.directferries.co.uk and www.directferries.it and ensure all the tests pass.
+- I did this by editing the exisitng tests to take an input to determine the region, and I created a HashMap to filter the correct domain based on the region
+- I would have preferred to optimise this further by parametrising the Cucumber tests using Scenario outline, but I couldn't quite get it working correctly
+- It would always take the table header as a parameter (i.e. '<region>') to run the tests, and I tried for a while to try and fix it, but I couldn't
+- Not sure if it's Cucumber-JS, or TestCafe, or something I'm doing wrong, but I'm happy to discuss in the next interview
 
 ---
 
-2. Please write a new test which will Navigate to my account page 'https://account.directferries.com/?culture=en-GB' type in some incorrect details and try to log in. 
+2. Please write a new test which will Navigate to my account page 'https://account.directferries.com/?culture=en-GB' type in some incorrect details and try to log in.
+- I added a few negativepath tests for login, including entering an inavlid email, an invalid reference number, both an envalid email and reference number, and finally an empty email and reference number
    
 ---
 
-3. Scenarios 1 & 3 within route-check feature are failing. To support a change in the upcoming sprint, you need to write automation for route Amalfi – Neapel. The existing steps do not seem to pass the checks which have been working for all routes up until now. Please investigate & resolve the issue here. 
+3. Scenarios 1 & 3 within route-check feature are failing. To support a change in the upcoming sprint, you need to write automation for route Amalfi – Neapel. The existing steps do not seem to pass the checks which have been working for all routes up until now. Please investigate & resolve the issue here.
+- Seems like after inputting a route, the tests were designed to click on the first element in the list, which wasn't always the correct route
+- I changed this to click on the route in the list that matches the correct test id
 
 ---
 
