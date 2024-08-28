@@ -1,9 +1,19 @@
 const { Selector, t } = require('testcafe');
 
 module.exports = {
-    onHomepage: async function () {
-        await t
-        .navigateTo('https://www.directferries.de?dealfinderVersion=A')
-        .click(Selector('[data-cky-tag="accept-button"]'));
-    }
+    onHomepage: async function (region) {
+
+        const regionSites = new Map([
+          ['German', 'de'],
+          ['UK', 'co.uk'],
+          ['Italian', 'it'],
+        ]);
+
+        let homepageUrl = 'https://www.directferries.' + regionSites.get(region) + '?dealfinderVersion=A'
+        await t.navigateTo(homepageUrl)
+        
+        if (region != 'UK'){
+        await t.click(Selector('[data-cky-tag="accept-button"]'));
+        }
+    },
 }

@@ -8,3 +8,7 @@ Given('I wait for quotes to load', async function () {
 Then('I am viewing route from {string} to {string}', async function (t, [portOut, portRet]) {
     await quotes.checkRouteIsPresent(portOut, portRet);
 });
+
+Then('I am viewing route from {string} to {string} on the {string} site', async function (t, [portOut, portRet, region]) {
+    await quotes.checkRouteIsPresent(portOut, portRet, region);
+});
