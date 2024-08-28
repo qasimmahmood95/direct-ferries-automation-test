@@ -16,7 +16,12 @@ module.exports = {
         await t
             .expect(Selector('#divQuotesContainer').visible).ok('Quotes not loaded', { timeout: 100000 })
     },
-    checkRouteIsPresent: async function(portOut, portRet){
+    checkRouteIsPresent: async function(portOut, portRet, region){
+        const regionSites = new Map([
+          ['German', ''],
+          ['UK', 'You are not viewing the right route for the quotes page'],
+          ['Italian', ''],
+        ]);
         await t.expect(await checkForRightRoute(portOut, portRet)).eql(true, "You are not viewing the right route for the quotes page")
     }
 

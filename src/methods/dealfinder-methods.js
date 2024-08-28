@@ -1,9 +1,9 @@
 const { Selector, t } = require('testcafe');
-function getRoutePicker(leg) {
+function getRoutePicker(leg, route) {
     if (leg === "return") {
-      return Selector('.routes_return').find('li').nth(0);
+      return Selector('.routes_return').find('li').withAttribute('data-routename', route);
     }
-    return Selector('.routes_outbound').find('li').nth(0);
+    return Selector('.routes_outbound').find('li').withAttribute('data-routename', route);
   }
   
 async function getRoute(leg) {
@@ -22,7 +22,7 @@ module.exports = {
         await t
             .expect(Selector(".route_list h5").exists).ok('Routes drop down not loaded', { timeout: 10000 })
             .expect(getRoutePicker(leg).exists).ok('Correct route not loaded', { timeout: 10000 })
-            .click(getRoutePicker(leg), { speed: 0.01 }) //slow down click to ensure it is registered
+            .click(getRoutePicker(leg, route), { speed: 0.01 }) //slow down click to ensure it is registered
     },
     clickSearch: async function () {
         await t.click(Selector(".df_submit"));
