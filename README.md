@@ -5,15 +5,15 @@ We would like you to complete a small task to demonstrate your technical underst
 ---    
 
 1. There are some tests existing and working within homepage-tests feature - please extend the test coverage for sites www.directferries.co.uk and www.directferries.it and ensure all the tests pass.
-- I did this by editing the exisitng tests to take an input to determine the region, and I created a HashMap to filter the correct domain based on the region
+- I did this by editing the existing tests to take an input to determine the region, and I created a HashMap to filter the correct domain based on the region
 - I would have preferred to optimise this further by parametrising the Cucumber tests using Scenario outline, but I couldn't quite get it working correctly
-- It would always take the table header as a parameter (i.e. '<region>') to run the tests, and I tried for a while to try and fix it, but I couldn't
+- It would always take the table header as a parameter (i.e. '<region>') to run the tests. I tried for a while to try and fix it, but I couldn't
 - Not sure if it's Cucumber-JS, or TestCafe, or something I'm doing wrong, but I'm happy to discuss in the next interview
 
 ---
 
 2. Please write a new test which will Navigate to my account page 'https://account.directferries.com/?culture=en-GB' type in some incorrect details and try to log in.
-- I added a few negativepath tests for login, including entering an inavlid email, an invalid reference number, both an envalid email and reference number, and finally an empty email and reference number
+- I added a few negative path tests for login, including entering an inavlid email, an invalid reference number, both an invalid email and reference number, and finally an empty email and reference number
    
 ---
 
@@ -24,7 +24,7 @@ We would like you to complete a small task to demonstrate your technical underst
 ---
 
 4. If you had extra time, what would you have done differently?
-- I would get the Cucumber Scenario Outline working for the tests within the homepage-tests feature, and then expand on the login tests with some positive testing
+- I would parametrise the Cucumber tests by getting the Cucumber Scenario Outline working within the homepage-tests feature, and then expand on the login tests with some positive testing
 - Once that was setup, I would try and expand the testing to even more countries and regions
 
 Please send your finished repo via email to racheld@directferries.com prior to your interview
