@@ -16,4 +16,3 @@ Given('I click different details for return trip', async function (t) {
 Given('I click Search on the dealfinder', async function (t) {
     await navigation.clickSearch();
 });
-
