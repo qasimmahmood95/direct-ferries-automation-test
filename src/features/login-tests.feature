@@ -4,7 +4,7 @@ Feature: Login
         Given I am on the login page
         When I enter email 'abc' and reference number '123'
         And I click Manage my booking
-        Then I see an email error message 
+        Then I see an email error message
         And I see a reference number error message
     
     Scenario: User cannot login with invalid email

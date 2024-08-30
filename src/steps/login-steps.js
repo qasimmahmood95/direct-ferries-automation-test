@@ -29,4 +29,3 @@ Then('I see an empty email error message', async function(){
 Then('I see an empty reference number error message', async function(){
     await login.checkEmptyReferenceNumberErrorMessage();
 });
-
