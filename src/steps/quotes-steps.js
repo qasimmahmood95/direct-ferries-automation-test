@@ -1,14 +1,12 @@
-const { Given, When, Then } = require("@cucumber/cucumber");
-const quotes = require("../methods/quotes-methods.js");
+const { When, Then } = require('@cucumber/cucumber');
+const quotesPage = require('../pages/quotes.page');
 
-Given('I wait for quotes to load', async function () {
-    await quotes.waitForQuotes();
+When('I wait for quotes to load', async () => {
+  await quotesPage.waitForQuotes();
 });
 
-Then('I am viewing route from {string} to {string}', async function (t, [portOut, portRet]) {
-    await quotes.checkRouteIsPresent(portOut, portRet);
-});
-
-Then('I am viewing route from {string} to {string} on the {string} site', async function (t, [portOut, portRet, region]) {
-    await quotes.checkRouteIsPresent(portOut, portRet, region);
+Then('I am viewing route from {string} to {string}', async (t, [portOut, portRet]) => {
+  await t
+    .expect(quotesPage.quoteForRoute(portOut, portRet).exists)
+    .ok(`No quote found for the route '${portOut} - ${portRet}'`);
 });

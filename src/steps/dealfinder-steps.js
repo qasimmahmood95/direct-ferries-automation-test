@@ -1,18 +1,18 @@
-const { Given, When, Then } = require("@cucumber/cucumber");
-const navigation = require("../methods/dealfinder-methods.js");
+const { Given, When } = require('@cucumber/cucumber');
+const dealfinder = require('../pages/dealfinder.component');
 
-Given('I have selected route {string}', async function (t, [route]) {
-    await navigation.selectRoute('single', route);
+Given('I have selected route {string}', async (_t, [route]) => {
+  await dealfinder.selectRoute('outbound', route);
 });
 
-Given('I have selected return route {string}', async function (t, [route]) {
-    await navigation.selectRoute('return', route);
+Given('I have selected return route {string}', async (_t, [route]) => {
+  await dealfinder.selectRoute('return', route);
 });
 
-Given('I click different details for return trip', async function (t) {
-    await navigation.clickDifferentDetails();
+When('I click different details for return trip', async () => {
+  await dealfinder.clickDifferentDetails();
 });
 
-Given('I click Search on the dealfinder', async function (t) {
-    await navigation.clickSearch();
+When('I click Search on the dealfinder', async () => {
+  await dealfinder.clickSearch();
 });

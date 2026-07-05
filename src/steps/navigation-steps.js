@@ -1,6 +1,6 @@
-const { Given, When, Then } = require("@cucumber/cucumber");
-const navigation = require("../methods/navigation-methods.js");
+const { Given } = require('@cucumber/cucumber');
+const homePage = require('../pages/home.page');
 
-Given('I am on the {string} homepage', async function (t, [region]) {
-        await navigation.onHomepage(region);
+Given('I am on the {string} homepage', async (_t, [region]) => {
+  await homePage.open(region);
 });
