@@ -34,6 +34,7 @@ jobs:
     name: E2E (${{ matrix.name }})
     runs-on: ubuntu-latest
     needs: lint
+    timeout-minutes: 30
     permissions:
       contents: read
       checks: write
@@ -55,6 +56,37 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # Diagnostics: distinguish "site unreachable from this runner" from
+      # "browser automation broken" before interpreting E2E failures.
+      - name: Check target sites are reachable from this runner
+        continue-on-error: true
+        run: |
+          for url in \
+            'https://www.directferries.co.uk/' \
+            'https://www.directferries.de/' \
+            'https://www.directferries.it/' \
+            'https://account.directferries.com/?culture=en-GB'; do
+            echo "== $url"
+            curl -sS -o /dev/null --max-time 30 \
+              -w 'HTTP %{http_code} in %{time_total}s (connect %{time_connect}s, TLS %{time_appconnect}s)\n' \
+              -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36' \
+              "$url" || echo 'REQUEST FAILED'
+          done
+
+      - name: Check the TestCafe/browser harness works at all
+        continue-on-error: true
+        run: |
+          cat > /tmp/sanity-test.js <<'EOF'
+          import { Selector } from 'testcafe';
+          fixture`Harness sanity`.page`https://example.com`;
+          test('example.com renders', async (t) => {
+            await t.expect(Selector('h1').exists).ok();
+          });
+          EOF
+          npx testcafe "$BROWSER" /tmp/sanity-test.js
+        env:
+          BROWSER: ${{ matrix.browser }}
 
       - name: Run E2E tests
         run: npm run test:ci
