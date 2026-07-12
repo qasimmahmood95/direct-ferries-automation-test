@@ -108,9 +108,24 @@ The [CI workflow](.github/workflows/ci.yml) runs on every push to `main`, every 
    parallel, annotating the PR with per-test results and uploading the JUnit
    report and any failure screenshots as build artifacts.
 
-Because the tests exercise the live public websites, occasional failures can
-reflect site availability or content changes rather than a defect in the
-suite — the nightly schedule makes such drift visible quickly.
+### Live-site constraint
+
+The `www.directferries.*` homepages sit behind a WAF that returns **HTTP 403
+to public CI runners** (datacenter IPs) — verified by a reachability probe
+that runs as a diagnostic step in every CI job. The account site
+(`account.directferries.com`) is not blocked. CI therefore:
+
+- runs the **login feature** end-to-end (reachable from CI), and
+- **excludes** features tagged `@blocked-in-ci` (homepage, route search),
+  which run locally or on a self-hosted runner with a residential IP:
+  `npm run test:smoke` / `npm run test:regression`.
+
+Each CI job also runs a one-test TestCafe sanity check against `example.com`
+so an automation-stack failure is never misread as a product failure.
+
+Beyond that, occasional failures can reflect site availability or content
+changes rather than a defect in the suite — the nightly schedule makes such
+drift visible quickly.
 
 ## Extending the suite
 

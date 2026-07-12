@@ -1,4 +1,7 @@
-@homepage @smoke
+# @blocked-in-ci: the www.directferries.* sites return HTTP 403 to requests
+# from public CI runners (WAF blocks datacenter IPs), so CI excludes this
+# feature via --tags ~@blocked-in-ci. Run it locally or on a self-hosted runner.
+@homepage @smoke @blocked-in-ci
 Feature: Direct Ferries homepage
   Key content sections should render on every regional homepage
 

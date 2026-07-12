@@ -1,4 +1,7 @@
-@routes @regression
+# @blocked-in-ci: the www.directferries.* sites return HTTP 403 to requests
+# from public CI runners (WAF blocks datacenter IPs), so CI excludes this
+# feature via --tags ~@blocked-in-ci. Run it locally or on a self-hosted runner.
+@routes @regression @blocked-in-ci
 Feature: Route search on the German site
   Searching for a route from the dealfinder should land on the quotes page for that route
 
