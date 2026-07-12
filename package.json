@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "gherkin-testcafe chrome src/steps/**/*.js src/features/**/*.feature --skip-js-errors -s takeOnFails=true,path=artifacts/screenshots",
-    "test:headless": "gherkin-testcafe chrome:headless src/steps/**/*.js src/features/**/*.feature --skip-js-errors -s takeOnFails=true,path=artifacts/screenshots",
+    "test:headless": "gherkin-testcafe \"${BROWSER:-chrome:headless}\" src/steps/**/*.js src/features/**/*.feature --skip-js-errors -s takeOnFails=true,path=artifacts/screenshots",
     "test:smoke": "npm run test:headless -- --tags @smoke",
     "test:regression": "npm run test:headless -- --tags @regression",
     "test:ci": "npm run test:headless -- -q attemptLimit=3,successThreshold=1 --reporter spec,xunit:artifacts/report.xml",

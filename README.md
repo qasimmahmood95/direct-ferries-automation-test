@@ -20,7 +20,7 @@ screenshots on failure.
 - **TestCafe** — browser automation (no WebDriver, built-in smart waits)
 - **gherkin-testcafe + Cucumber** — Gherkin feature files with TestCafe step definitions
 - **ESLint + Prettier** — static analysis and consistent formatting
-- **GitHub Actions** — lint + headless E2E on every PR, plus a nightly run
+- **GitHub Actions** — lint + headless E2E on a Chrome/Firefox matrix for every PR, plus a nightly run
 
 ## Getting started
 
@@ -38,8 +38,20 @@ npm run lint            # ESLint
 npm run format          # Prettier write
 ```
 
-Failure screenshots are written to `artifacts/screenshots/`; the CI run also
-produces a JUnit report at `artifacts/report.xml`.
+Any TestCafe browser alias works via the `BROWSER` variable, e.g.:
+
+```bash
+BROWSER=firefox:headless npm run test:headless
+```
+
+## Reporting & debugging
+
+- **Failure screenshots** are captured automatically to `artifacts/screenshots/`.
+- **JUnit report** — CI runs write `artifacts/report.xml`, which is surfaced
+  two ways: as inline pass/fail annotations on the PR (via `dorny/test-reporter`)
+  and as a downloadable build artifact alongside the screenshots.
+- **Readable console output** — the `spec` reporter prints each Gherkin
+  scenario and step as it runs.
 
 ## Project structure
 
@@ -90,9 +102,11 @@ src/
 
 The [CI workflow](.github/workflows/ci.yml) runs on every push to `main`, every PR, and nightly:
 
-1. **Lint & format** — ESLint and a Prettier check.
-2. **E2E** — the full suite in headless Chrome, uploading the JUnit report
-   and any failure screenshots as build artifacts.
+1. **Lint & format** — ESLint and a Prettier check, gating the expensive
+   live-site jobs.
+2. **E2E matrix** — the full suite in headless Chrome and Firefox in
+   parallel, annotating the PR with per-test results and uploading the JUnit
+   report and any failure screenshots as build artifacts.
 
 Because the tests exercise the live public websites, occasional failures can
 reflect site availability or content changes rather than a defect in the
@@ -109,7 +123,7 @@ suite — the nightly schedule makes such drift visible quickly.
 
 ## Roadmap
 
-- Cross-browser matrix (Firefox/Edge) in CI
+- Extend the browser matrix beyond Chrome/Firefox (Edge, Safari via a device cloud)
 - Positive-path login coverage with a seeded test account
 - Visual regression checks on the homepage sections
 - Concurrency (`-c`) once quote-page flakiness is characterised
