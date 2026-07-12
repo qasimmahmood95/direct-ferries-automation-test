@@ -1,10 +1,36 @@
 {
-  "scripts": {
-    "test": "gherkin-testcafe chrome src/steps/** src/features/* --skip-js-errors"
+  "name": "direct-ferries-automation",
+  "version": "1.0.0",
+  "description": "BDD end-to-end test suite for the Direct Ferries websites, built with TestCafe and Cucumber (gherkin-testcafe)",
+  "private": true,
+  "license": "MIT",
+  "author": "Qasim Mahmood",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qasimmahmood95/direct-ferries-automation-test.git"
   },
-  "dependencies": {
-    "@cucumber/cucumber": "^10.2.1",
-    "gherkin-testcafe": "7.3.0",
-    "testcafe": "^3.6.2"
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "gherkin-testcafe chrome src/steps/**/*.js src/features/**/*.feature --skip-js-errors -s takeOnFails=true,path=artifacts/screenshots",
+    "test:headless": "gherkin-testcafe \"${BROWSER:-chrome:headless}\" src/steps/**/*.js src/features/**/*.feature --skip-js-errors -s takeOnFails=true,path=artifacts/screenshots",
+    "test:smoke": "npm run test:headless -- --tags @smoke",
+    "test:regression": "npm run test:headless -- --tags @regression",
+    "test:ci": "npm run test:headless -- --tags ~@blocked-in-ci -q attemptLimit=3,successThreshold=1 --reporter spec,xunit:artifacts/report.xml",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.9.0",
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "gherkin-testcafe": "^7.4.0",
+    "globals": "^15.0.0",
+    "prettier": "^3.2.5",
+    "testcafe": "^3.7.6"
   }
 }
