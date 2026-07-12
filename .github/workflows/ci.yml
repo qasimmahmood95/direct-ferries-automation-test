@@ -31,9 +31,20 @@ jobs:
         run: npm run format:check
 
   e2e:
-    name: End-to-end tests
+    name: E2E (${{ matrix.name }})
     runs-on: ubuntu-latest
     needs: lint
+    permissions:
+      contents: read
+      checks: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: chrome
+            browser: 'chrome:headless'
+          - name: firefox
+            browser: 'firefox:headless'
     steps:
       - uses: actions/checkout@v4
 
@@ -45,14 +56,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run E2E tests (headless Chrome)
+      - name: Run E2E tests
         run: npm run test:ci
+        env:
+          BROWSER: ${{ matrix.browser }}
+
+      - name: Annotate PR with test results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: E2E results (${{ matrix.name }})
+          path: artifacts/report.xml
+          reporter: java-junit
 
       - name: Upload test report & failure screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-artifacts
+          name: test-artifacts-${{ matrix.name }}
           path: artifacts/
           if-no-files-found: ignore
           retention-days: 14
