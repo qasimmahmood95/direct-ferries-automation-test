@@ -17,7 +17,7 @@
     "test:headless": "gherkin-testcafe \"${BROWSER:-chrome:headless}\" src/steps/**/*.js src/features/**/*.feature --skip-js-errors -s takeOnFails=true,path=artifacts/screenshots",
     "test:smoke": "npm run test:headless -- --tags @smoke",
     "test:regression": "npm run test:headless -- --tags @regression",
-    "test:ci": "npm run test:headless -- -q attemptLimit=3,successThreshold=1 --reporter spec,xunit:artifacts/report.xml",
+    "test:ci": "npm run test:headless -- --tags ~@blocked-in-ci -q attemptLimit=3,successThreshold=1 --reporter spec,xunit:artifacts/report.xml",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -28,9 +28,9 @@
     "@eslint/js": "^9.0.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
-    "gherkin-testcafe": "7.3.0",
+    "gherkin-testcafe": "^7.4.0",
     "globals": "^15.0.0",
     "prettier": "^3.2.5",
-    "testcafe": "^3.6.2"
+    "testcafe": "^3.7.6"
   }
 }
